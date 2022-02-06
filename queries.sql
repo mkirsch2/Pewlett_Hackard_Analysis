@@ -110,8 +110,91 @@ ON ce.emp_no = de.emp_no
 GROUP BY de.dept_no
 ORDER BY de.dept_no;
 
--- Employee Info: Retiring employee info (emp_no, last_name, first_name, gender, salary)
+-- Employee Info: Retiring employee info (emp_no, first_name, last_name, gender, to_date, salary)
+-- SELECT * FROM salaries
+-- ORDER BY to_date DESC;
+
+SELECT emp_no, first_name, last_name, gender
+INTO emp_info
+FROM employees
+WHERE (birth_date BETWEEN '1952-01-01' AND '1955-12-31')
+AND (hire_date BETWEEN '1985-01-01' AND '1988-12-31');
+
+DROP TABLE emp_info
+
+SELECT e.emp_no,
+	e.first_name,
+	e.last_name,
+	e.gender,
+	s.salary,
+	s.to_date
+INTO emp_info
+FROM employees as e
+INNER JOIN salaries as s
+ON (e.emp_no = s.emp_no)
+INNER JOIN dept_emp as de
+ON (e.emp_no = de.emp_no)
+WHERE (birth_date BETWEEN '1952-01-01' AND '1955-12-31')
+AND (hire_date BETWEEN '1985-01-01' AND '1988-12-31')
+AND (de.to_date = '9999-01-01');
+
+SELECT * FROM emp_info
 
 -- Management: List of managers for each dept (dept_no, dept_name, emp_no, last_name, first_name, from_date, to_date)
 
--- Deptartment Retirees: Updated current_emp list that also includes employees' departments
+SELECT dm.dept_no,
+		d.dept_name,
+		dm.emp_no,
+		ce.last_name,
+		ce.first_name,
+		dm.from_date,
+		dm.to_date
+INTO manager_info
+FROM dept_manager as dm
+	INNER JOIN departments as d
+		ON (dm.dept_no = d.dept_no)
+	INNER JOIN current_emp as ce
+		ON (dm.emp_no = ce.emp_no);
+
+-- Department Retirees: Updated current_emp list that also includes employees' departments
+
+SELECT ce.emp_no,
+	ce.first_name,
+	ce.last_name,
+	d.dept_name
+INTO dept_info
+FROM current_emp as ce
+	INNER JOIN dept_emp as de
+		ON (ce.emp_no = de.emp_no)
+	INNER JOIN departments as d
+		ON (de.dept_no = d.dept_no);
+
+-- New list containing only employees in sales department and contains everything in the retirement_info table
+-- (emp_no, first_name, last_name, dept_name)
+
+SELECT ri.emp_no,
+	ri.first_name,
+	ri.last_name,
+	d.dept_name
+INTO sales_retirement_info
+FROM retirement_info as ri
+	INNER JOIN dept_emp as de
+		ON (ri.emp_no = de.emp_no)
+	INNER JOIN departments as d
+		ON (de.dept_no = d.dept_no)
+WHERE dept_name = 'Sales';
+
+-- New list containing only employees in sales AND development departments and contains everything in the retirement_info table
+-- (emp_no, first_name, last_name, dept_name)
+
+SELECT ri.emp_no,
+	ri.first_name,
+	ri.last_name,
+	d.dept_name
+INTO sales_dev_retirement_info
+FROM retirement_info as ri
+	INNER JOIN dept_emp as de
+		ON (ri.emp_no = de.emp_no)
+	INNER JOIN departments as d
+		ON (de.dept_no = d.dept_no)
+WHERE dept_name IN ('Sales', 'Development');
