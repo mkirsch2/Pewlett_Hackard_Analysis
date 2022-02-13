@@ -8,11 +8,30 @@ Additionally, the Sales and Development departments are spearheading a new mento
 ## Results
 
 ### Total number of expected retirements
+Pewlett Hackard is expecting 72,458.
 
-### 
+### Total number of expected retirements by title.
 
-### 
+- Senior Engineer - 25,916
+- Senior Staff - 24,926
+- Engineer - 9,285
+- Staff - 7,636
+- Technique Leader - 3,603
+- Assistant Engineer - 1,090
+- Manager - 2
 
+### Total number of expected retirements by department.
+
+- Customer Service - 3,662
+- Development - 19,391
+- Finance - 4,199
+- Human Resources - 3,706
+- Marketing - 4,816
+- Production - 17,784
+- Quality Management - 3,655
+- Research - 3,715
+- Sales - 11,530
+- 
 ### Eligible employees for the mentorship program
 The Sales and Development departments are considering a new mentoring program for current employees who were born between January 1, 1965 and December 31, 1965 who will be retiring soon. The total number of elgibile employees for the mentorship program are 244 in the Sales Department and 396 in the Development Department.
 
